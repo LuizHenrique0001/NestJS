@@ -1,24 +1,19 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
+import { AuthModule } from '../auth/auth.module';
+import { ConfigsModule } from '../configs/configs.module';
+import { UserEntity } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/User';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: '123',
-      database: 'users',
-      entities: [User],
-      synchronize: true,
-    }),
-    TypeOrmModule.forFeature([User]),
-  ],
+    forwardRef(() => AuthModule),
+    forwardRef(() => ConfigsModule),
+    TypeOrmModule.forFeature([UserEntity]),
+    ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

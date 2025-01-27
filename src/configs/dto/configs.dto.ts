@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UsersDto {
+export class ConfigsDto {
   @IsString()
   @IsNotEmpty({ message: 'Preencha o Campo Nome!' })
   @MaxLength(30, { message: 'Maximo de Caracteres é de 30' })
